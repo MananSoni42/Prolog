@@ -1,0 +1,125 @@
+<div class="notebook">
+
+<div class="nb-cell program" name="p1">
+%% P01 - Find the last element of a list
+last(A,[A]).
+last(X,[_|T]):-
+    last(X,T).
+</div>
+
+<div class="nb-cell query" name="q1">
+last(X,[1,2,3,4,5])
+</div>
+
+<div class="nb-cell program" name="p2">
+%% P02 - Find the second last element of a list
+second_last(A,[A,_]).
+second_last(X,[_|T]):-
+    second_last(X,T).
+</div>
+
+<div class="nb-cell query" name="q2">
+second_last(X,[1,2,3,4,5])
+</div>
+
+<div class="nb-cell program" name="p3">
+%% P03 - Find the Kth element of a list
+element(A,[A|_],1).
+element(X,[_|T],M):-
+    N is M-1,
+    element(X,T,N).
+</div>
+
+<div class="nb-cell query" name="q3">
+element(X,[1,2,3,4,5],2)
+</div>
+
+<div class="nb-cell program" name="p4">
+%% P04 - Length of a list
+len(1,[_]).
+len(X,[_|T]):-
+    len(X1,T),
+    X is X1+1.
+
+% Use tail recursion for efficiency
+%len_acc(1, [_], 1).
+len_acc(A,[],A).
+len_acc(X,[_|T],Acc):-
+    Acc1 is Acc+1,
+    len_acc(X,T,Acc1).
+
+len_opt(X,L):-
+    len_acc(X,L,0).
+</div>
+
+<div class="nb-cell query" name="q4">
+len(X,[1,2,3,4,5])
+</div>
+
+<div class="nb-cell query" name="q6">
+len_opt(X, [1,2,3,4,5])
+</div>
+
+<div class="nb-cell program" name="p5">
+%% P05 - Reverse a list (tricky implemenation)
+rev_opt(L1,L2) :- 
+    rev_acc(L1,L2,[]).
+
+rev_acc([],L2,L2) :- !.
+rev_acc([X|Xs],L2,Acc) :- 
+    rev_acc(Xs,L2,[X|Acc]).
+</div>
+
+<div class="nb-cell query" name="q5">
+rev_opt(X,[1,2,3,4])
+</div>
+
+<div class="nb-cell program" name="p6">
+%% P06 - Find out if a list is a palindrome (use Reverse)
+rev_opt(L1,L2) :- 
+    rev_acc(L1,L2,[]).
+
+rev_acc([],L2,L2) :- !.
+rev_acc([X|Xs],L2,Acc) :- 
+    rev_acc(Xs,L2,[X|Acc]).
+
+is_palindrome(L):-
+    rev_opt(L,L).
+</div>
+
+<div class="nb-cell query" name="q7">
+is_palindrome([1,2,2,1])
+</div>
+
+<div class="nb-cell query" name="q8">
+is_palindrome([1,2,3,4])
+</div>
+
+<div class="nb-cell program" name="p7">
+%% P07 - Flatten a nested List
+flatten(X,L):-
+    flatten_acc(X,L,[]).
+
+flatten_acc(A,[],A):- !.
+flatten_acc(X,[H|T],Acc):-
+    is_list(H)-&gt;flatten_acc(X1,H,[]), append(Acc,X1,Acc1), flatten_acc(X,T,Acc1); 
+    append(Acc,[H],Acc2), flatten_acc(X,T,Acc2).
+</div>
+
+<div class="nb-cell query" name="q9">
+flatten(X,[a,b,[c,d,e],f])
+</div>
+
+<div class="nb-cell program" name="p8">
+%% P08 - Compress a list i.e. replace consecutive same elements with 1 instance of that element
+compress_acc(A,[],_,A).
+compress_acc(X,[H|T],Last,Acc):-
+	Last=H -&gt; compress_acc(X,T,Last,Acc);
+    append(Acc,[H],Acc1), compress_acc(X,T,Last,Acc1).
+</div>
+
+<div class="nb-cell query" name="q10">
+compress_acc(X,[1,2,2,3,4],-1,[])
+</div>
+
+</div>
